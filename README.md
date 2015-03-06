@@ -15,22 +15,27 @@ https://golang.org/doc/install
 
 This project requires git2go.v22, which in turn requires libgit2.  You will need to install a go and libgit2.  If you want SSH support with this application, ensure you have libssh installed as well.
 
-`
-go get -d gopkg.in/libgit2/git2go.v22
-cd $GOPATH/src/gopkg.in/libgit2/git2go
-git submodule update --init 
-make install
-`
+
+```bash
+    go get -d gopkg.in/libgit2/git2go.v22
+    cd $GOPATH/src/gopkg.in/libgit2/git2go
+    git submodule update --init 
+    make install
+```
 
 # Installing yaml
 
 This project also requires yaml.v2
 
-`go get gopkg.in/yaml.v2`
+```bash
+    go get gopkg.in/yaml.v2
+```
 
 # Installing RepoTsar
 
-`go get github.com/SearchSpring/RepoTsar` 
+```bash
+    go get github.com/SearchSpring/RepoTsar
+``` 
 
 
 Usage
