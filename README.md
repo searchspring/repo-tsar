@@ -64,7 +64,7 @@ repos:
 ```
 (Reminder: YAML format is space indented, not tab)
 
-Running repotsar without arguments will create paths if needed, clone repos if needed, and git pull.
+Running repotsar without arguments will concurrently and idempotently create paths if needed, clone repos if needed, and git pull.
 
 --repos can be supplied to a comma seperated list of defined repos from your repotsar.yml to act on.
 
