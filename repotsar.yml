@@ -1,0 +1,9 @@
+signature:
+    name: "Your Name"
+    email: email@address.com
+
+repos:
+    git2go:
+        url: ssh://git@github.com/libgit2/git2go.git
+        path: /tmp/git2go
+        branch: master
