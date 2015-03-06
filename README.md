@@ -18,7 +18,7 @@ This project requires git2go.v22, which in turn requires libgit2.  You will need
 
 ```bash
 go get -d gopkg.in/libgit2/git2go.v22
-cd $GOPATH/src/gopkg.in/libgit2/git2go
+cd $GOPATH/src/gopkg.in/libgit2/git2go.v22
 git submodule update --init 
 make install
 ```
