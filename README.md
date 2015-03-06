@@ -13,7 +13,7 @@ https://golang.org/doc/install
 
 # Installing git2go
 
-This project requires git2go.v22, which in turn requires libgit2.  You will need to install a go and libgit2.  If you want SSH support with this application, ensure you have libssh2 installed as well.
+This project requires git2go.v22, which in turn requires libgit2.  You will need to install a go and libgit2.  If you want SSH support with this application, ensure you have libssh2 installed as well.  A recent version of cmake is required to build libgit2 http://www.cmake.org/download/ . 
 
 
 ```bash
