@@ -17,10 +17,10 @@ This project requires git2go.v22, which in turn requires libgit2.  You will need
 
 
 ```bash
-    go get -d gopkg.in/libgit2/git2go.v22
-    cd $GOPATH/src/gopkg.in/libgit2/git2go
-    git submodule update --init 
-    make install
+go get -d gopkg.in/libgit2/git2go.v22
+cd $GOPATH/src/gopkg.in/libgit2/git2go
+git submodule update --init 
+make install
 ```
 
 # Installing yaml
@@ -28,13 +28,13 @@ This project requires git2go.v22, which in turn requires libgit2.  You will need
 This project also requires yaml.v2
 
 ```bash
-    go get gopkg.in/yaml.v2
+go get gopkg.in/yaml.v2
 ```
 
 # Installing RepoTsar
 
 ```bash
-    go get github.com/SearchSpring/RepoTsar
+go get github.com/SearchSpring/RepoTsar
 ``` 
 
 
