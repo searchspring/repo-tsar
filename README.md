@@ -6,22 +6,31 @@ Manage multiple git repos
 Installing
 ==========
 
-## Requirements
+# Requirements
 This project is written in go.
 
 https://golang.org/doc/install
 
-Don't forget to set your GOPATH and add the locations of the go bin to your PATH.  Something like this in your .bashrc :
+Don't forget to set your GOPATH and add the locations of the go bin to your PATH.  You should also ensure that your PKG_CONFIG_PATH is set for compiling purposes later on.  Something like this in your .bashrc :
 
 ```bash
 export GOPATH=$HOME/code/go
 export PATH=$PATH:$GOPATH/bin:/usr/local/go/bin/
+export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/lib/pkgconfig
 ```
 
-# Installing git2go
+### Installing git2go
 
-This project requires git2go.v22, which in turn requires libgit2.  You will need to install a go and libgit2.  If you want SSH support with this application, ensure you have libssh2 installed as well.  A recent version of cmake is required to build libgit2 http://www.cmake.org/download/ . 
+This project requires git2go.v22, which in turn requires libgit2.  If you want SSH support with this application, ensure you have libssh2 installed as well.  A recent version of cmake is required to build libgit2 http://www.cmake.org/download/ .  You'll need to commandline tools for cmake, if you're on OSX and you've installed the GUI, goto Tools->Install for Command Line Use.  This may throw an error about failing to create symlinks.  This is a permissions error, you can create this links by hand.
 
+```bash
+/usr/bin/
+cmake -> /Applications/CMake.app/Contents/bin/cmake
+cmake-gui -> /Applications/CMake.app/Contents/bin/cmake-gui
+cmakexbuild -> /Applications/CMake.app/Contents/bin/cmakexbuild
+```
+
+#### Building libgit2 and git2go
 
 ```bash
 go get -d gopkg.in/libgit2/git2go.v22
@@ -30,7 +39,7 @@ git submodule update --init
 make install
 ```
 
-# Installing yaml
+#### Installing yaml
 
 This project also requires yaml.v2
 
@@ -38,7 +47,7 @@ This project also requires yaml.v2
 go get gopkg.in/yaml.v2
 ```
 
-# Installing RepoTsar
+#### Installing RepoTsar
 
 ```bash
 go get github.com/SearchSpring/RepoTsar
@@ -71,7 +80,7 @@ Running repotsar without arguments will concurrently and idempotently create pat
 
 Supply a comma seperated list of defined repos from your repotsar.yml to act on.
 
-``` --branch BranchName ```
+```RepoTsar --branch BranchName ```
 
 Will in addition create local branches in all repos being acted on.
 
