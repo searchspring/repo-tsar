@@ -1,44 +1,29 @@
-package main
+package tsar
 
 import (
-	"time"
 	"log"
-	"strings"
-	"flag"
+	"errors"
+	"fmt"
+
 	"gopkg.in/libgit2/git2go.v22"
 	"github.com/SearchSpring/RepoTsar/gitutils"
 	"github.com/SearchSpring/RepoTsar/fileutils"
 	"github.com/SearchSpring/RepoTsar/config"
 )
 
-var configFileName string
-var branch string
-var reposCSV string
-type empty struct {}
-type semaphore chan empty
+type semaphore chan error
 
-func main() {
-	// Parse commandline 
-	flag.StringVar(&configFileName, "config", "repotsar.yml", "YAML config file")
-	flag.StringVar(&branch, "branch", "", "Create branch in repos")
-	flag.StringVar(&reposCSV, "repos", "", "Non-spaced Comma separated list of repos (defaults to all)")
-	flag.Parse()
+type RepoTsar struct{
+	Config config.Config
+	Branch string
+	ReposList []string
+	Signature *git.Signature
+}
 
-	config,err := config.ReadConfig(configFileName)
-	if err != nil {
-		log.Fatal(err)
-	}
-	c := config.Repos
-
-	// Git Signature
-	signature := &git.Signature{
-		Name: config.Signature.Name,
-		Email: config.Signature.Email,
-		When: time.Now(),
-	}
-
-	reposlist := strings.Split(reposCSV, ",") 
+func (r *RepoTsar) Run() error {
+	reposlist := r.ReposList 
 	// if the reposlist is empty append all repos from config to reposlist
+	c := r.Config.Repos
 	if reposlist[0] == "" {
 		// delete item from array
 		reposlist = append(reposlist[:0], reposlist[0+1:]...)
@@ -55,14 +40,17 @@ func main() {
 
 			_,ok := c[k]
 			if ! ok {
-				log.Fatalf("Repo %#v is not defined in config\n", k)
+				err := errors.New(fmt.Sprintf("Repo %#v is not defined in config\n", k))
+				sem <- err
+				return
 			}
 			log.Printf("[%s, url: %s, path: %s, branch: %s]", k, c[k].URL, c[k].Path, c[k].Branch)
 	
 			// Createpath 
 			path,err := fileutils.CreatePath(c[k].Path)
 			if err != nil {
-				log.Fatal(err)
+				sem <-err
+				return
 			}
 			
 			// Clone Repo
@@ -74,7 +62,8 @@ func main() {
 			}
 			repo, err := cloneinfo.CloneRepo()
 			if err != nil {
-				log.Fatal(err)
+				sem <-err
+				return
 			}
 			
 			// Git Pull
@@ -85,28 +74,36 @@ func main() {
 			}
 			err = pullinfo.GitPull()
 			if err != nil {
-				log.Fatal(err)
+				sem <-err
+				return
 			}
 	
 			// If branch option, branch and checkout selected repos
-			if branch != "" {
+			if r.Branch != "" {
 				branchinfo := &gitutils.BranchInfo{
 					Reponame: k,
-					Branchname: branch,
+					Branchname: r.Branch,
 					Msg: "RepoTsar Branching",
 					Repo: *repo,
-					Signature: signature,
+					Signature: r.Signature,
 				}
 				err = branchinfo.GitBranch()
 				if err != nil {
-					log.Fatal(err)
+					sem <-err
+					return
 				}		
 			}
-			e := empty{}
-			sem <- e
+			sem <-nil
+			return
 		}(key)
 	}
 
 	// Wait for threads to finish
-	for i := 0; i < thrnum; i++ {<-sem}
+	for i := 0; i < thrnum; i++ { 
+		err := <-sem
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }
