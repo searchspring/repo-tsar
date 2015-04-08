@@ -30,7 +30,7 @@ func (p *PullInfo ) GitPull() ( error ) {
 			return err
 		} else {
 			refspec := make([]string, 0)
-			err = origin.Fetch(refspec, nil, "")
+			err = origin.Fetch(refspec, "")
 			if err != nil {
 				return err
 			} 

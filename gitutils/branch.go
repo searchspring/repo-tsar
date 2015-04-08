@@ -21,7 +21,7 @@ func (b *BranchInfo) createBranch() (error){
 	if err != nil {
 		return err
 	}	
-	_,err = b.Repo.CreateBranch(b.Branchname, headCommit, false, b.Signature, b.Msg )
+	_,err = b.Repo.CreateBranch(b.Branchname, headCommit, false )
 	
 	if err != nil {
 		return err
@@ -57,7 +57,7 @@ func (b *BranchInfo) GitBranch() (error) {
 	if err != nil {
 		return err
 	}
-	err = b.Repo.SetHead("refs/heads/"+b.Branchname, b.Signature, "")
+	err = b.Repo.SetHead("refs/heads/"+b.Branchname)
 	if err != nil {
 		return err
 	}

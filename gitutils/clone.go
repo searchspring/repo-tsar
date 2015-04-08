@@ -25,7 +25,7 @@ func (c *CloneInfo) CloneRepo() (*git.Repository, error) {
 				CertificateCheckCallback: certificateCheckCallback,
 			},
 			CheckoutOpts: &git.CheckoutOpts{
-				Strategy: git.CheckoutSafeCreate,
+				Strategy: git.CheckoutSafe,
 			},
 		}
 		repo, err := git.Clone(c.URL,c.Path,cloneOptions)

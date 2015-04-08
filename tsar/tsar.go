@@ -35,14 +35,14 @@ func (r *RepoTsar) Run() error {
 	// Semaphore for concurrency
 	thrnum := len(reposlist)
 	sem := make(semaphore, thrnum)
-	for _, key := range reposlist {
-		go func(k string) {
+	for _, k := range reposlist {
+	//	go func(k string) error {
 
 			_,ok := c[k]
 			if ! ok {
 				err := errors.New(fmt.Sprintf("Repo %#v is not defined in config\n", k))
 				sem <- err
-				return
+				return err
 			}
 			log.Printf("[%s, url: %s, path: %s, branch: %s]", k, c[k].URL, c[k].Path, c[k].Branch)
 	
@@ -50,7 +50,7 @@ func (r *RepoTsar) Run() error {
 			path,err := fileutils.CreatePath(c[k].Path)
 			if err != nil {
 				sem <-err
-				return
+				return fmt.Errorf("Cannot create path %#v : %s", c[k].Path,err)
 			}
 			
 			// Clone Repo
@@ -63,7 +63,7 @@ func (r *RepoTsar) Run() error {
 			repo, err := cloneinfo.CloneRepo()
 			if err != nil {
 				sem <-err
-				return
+				return fmt.Errorf("Cannot clone repo %#v : %s", k,err)
 			}
 			
 			// Git Pull
@@ -75,7 +75,7 @@ func (r *RepoTsar) Run() error {
 			err = pullinfo.GitPull()
 			if err != nil {
 				sem <-err
-				return
+				return fmt.Errorf("Cannot pull repo %#v : %s ", k,err)
 			}
 	
 			// If branch option, branch and checkout selected repos
@@ -90,20 +90,20 @@ func (r *RepoTsar) Run() error {
 				err = branchinfo.GitBranch()
 				if err != nil {
 					sem <-err
-					return
+					return fmt.Errorf("Cannot branch repo %#v : %s", k,err)
 				}		
 			}
 			sem <-nil
-			return
-		}(key)
+			// return nil
+	//	}(key)
 	}
 
-	// Wait for threads to finish
-	for i := 0; i < thrnum; i++ { 
-		err := <-sem
-		if err != nil {
-			return err
-		}
-	}
+	// // Wait for threads to finish
+	// for i := 0; i < thrnum; i++ { 
+	// 	err := <-sem
+	// 	if err != nil {
+	// 		return err
+	// 	}
+	// }
 	return nil
 }
