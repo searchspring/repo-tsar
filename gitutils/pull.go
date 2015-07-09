@@ -59,7 +59,6 @@ func (p *PullInfo ) GitPull() ( error ) {
 	}
 	mergeHeads := make([]*git.AnnotatedCommit,1)
 	mergeHeads[0] = mergeHead
-	fmt.Printf("Merging\n")
 	mergeAnalysis, _ ,err := p.Repo.MergeAnalysis(mergeHeads)
 	if err != nil {
 		return err
@@ -68,6 +67,12 @@ func (p *PullInfo ) GitPull() ( error ) {
 		err = fmt.Errorf("Cannot merge an unborn commit.")
 		return err
 	}
+	if ( mergeAnalysis & git.MergeAnalysisUpToDate) == git.MergeAnalysisUpToDate {
+		fmt.Printf("Repo up to date\n")
+		p.Repo.StateCleanup()
+		return nil
+	}
+	fmt.Printf("Merging\n")
 	err = p.Repo.Merge(mergeHeads,nil,&git.CheckoutOpts{Strategy: git.CheckoutUseTheirs})
 	if err != nil {
 		return err
