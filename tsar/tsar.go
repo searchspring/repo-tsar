@@ -71,6 +71,7 @@ func (r *RepoTsar) Run() error {
 				Reponame: k,
 				Repo: repo,
 				Branch: c[k].Branch,
+				Signature: r.Signature,
 			}
 			err = pullinfo.GitPull()
 			if err != nil {
