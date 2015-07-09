@@ -17,6 +17,7 @@ type PullInfo struct {
 func (p *PullInfo ) GitPull() ( error ) {
 
 	fmt.Print("Pulling\n")
+
 	// fetch
 	remotes,err := p.Repo.ListRemotes()
 	if err != nil {
@@ -48,20 +49,17 @@ func (p *PullInfo ) GitPull() ( error ) {
 	if err != nil {
 		return err
 	}
-// 
 	remoteref, err := p.Repo.LookupReference(remote)
 	if err != nil {
 		return err
 	}
-// 
 	mergeHead, err := p.Repo.AnnotatedCommitFromRef(remoteref)
 	if err != nil {
 		return err
 	}
-// 
 	mergeHeads := make([]*git.AnnotatedCommit,1)
 	mergeHeads[0] = mergeHead
-	fmt.Printf("Merging %#v\n", mergeHeads)
+	fmt.Printf("Merging\n")
 	mergeAnalysis, _ ,err := p.Repo.MergeAnalysis(mergeHeads)
 	if err != nil {
 		return err
@@ -75,22 +73,19 @@ func (p *PullInfo ) GitPull() ( error ) {
 		return err
 	}
 
-
-	 headIndex, _ := p.Repo.Index()
-	 headWriteOid, _ := headIndex.WriteTree()
-	 headTree, _ := p.Repo.LookupTree(headWriteOid)
-	 currentTip, _ := p.Repo.LookupCommit(localref.Target())
-	 branchTip, _ := p.Repo.LookupCommit(remoteref.Target())
-	 _,err = p.Repo.CreateCommit("HEAD", p.Signature, p.Signature, "merged "+p.Branch, headTree, currentTip, branchTip) 
-	 if err != nil {
-	 	return err
-	 }
-
-	err = p.Repo.CheckoutHead(&git.CheckoutOpts{Strategy: git.CheckoutUseTheirs})
+	// commit
+	fmt.Printf("Committing\n")
+	headIndex, _ := p.Repo.Index()
+	headWriteOid, _ := headIndex.WriteTree()
+	headTree, _ := p.Repo.LookupTree(headWriteOid)
+	currentTip, _ := p.Repo.LookupCommit(localref.Target())
+	branchTip, _ := p.Repo.LookupCommit(remoteref.Target())
+	_,err = p.Repo.CreateCommit("HEAD", p.Signature, p.Signature, "merged "+p.Branch, headTree, currentTip, branchTip) 
 	if err != nil {
 		return err
 	}
 
+	// cleanup
 	p.Repo.StateCleanup()
 	return nil
 }
