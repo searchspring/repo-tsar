@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<installer-gui-script minSpecVersion="1">
+    <title>RepoTsar</title>
+    <organization>org.repotsar</organization>
+    <domains enable_localSystem="true"/>
+    <options customize="never" require-scripts="true" rootVolumeOnly="true"/>
+    <!-- Define documents displayed at various steps -->
+    <license    file="license.html"    mime-type="text/html" />
+    <!-- List all component packages -->
+    
+    <pkg-ref id="org.repotsar.bin"
+             version="0"
+             auth="root">RepoTsar.pkg</pkg-ref>
+    <!-- List them again here. They can now be organized
+         as a hierarchy if you want. -->
+    <choices-outline>
+        <line choice="org.repotsar.bin"/>
+    </choices-outline>
+    <!-- Define each choice above -->
+    <choice
+        id="org.repotsar.bin"
+        visible="false"
+        title="RepoTsar"
+        description="RepoTsar"
+        start_selected="true">
+      <pkg-ref id="org.repotsar.bin"/>
+    </choice>
+</installer-gui-script>

@@ -18,7 +18,7 @@ var repos string
 var version bool
 
 const (
-	versioninfo = "v0.1.1"
+	versioninfo = "v0.1.2"
 )
 
 func main() {
