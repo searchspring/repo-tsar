@@ -32,7 +32,7 @@ func (b *BranchInfo) createBranch() (error){
 func (b *BranchInfo) GitBranch() (error) {
 	
 	// If branch doesn't exist, create it
-	_,err := b.Repo.LookupReference("refs/heads/"+b.Branchname)
+	_,err := b.Repo.References.Lookup("refs/heads/"+b.Branchname)
 	if err != nil{
 		err = b.createBranch()
 		if err != nil {

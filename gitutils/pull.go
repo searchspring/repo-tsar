@@ -19,23 +19,26 @@ func (p *PullInfo ) GitPull() ( error ) {
 	fmt.Print("Pulling\n")
 
 	// fetch
-	remotes,err := p.Repo.ListRemotes()
+	remotes,err := p.Repo.Remotes.List()
 	if err != nil {
 		return err
 	} else {
-		origin, err := p.Repo.LookupRemote(remotes[0])
+		origin, err := p.Repo.Remotes.Lookup(remotes[0])
 		defer origin.Free()
-		remoteCallbacks := &git.RemoteCallbacks{
+		remoteCallbacks := git.RemoteCallbacks{
 			CredentialsCallback:  credentialsCallback,
 			CertificateCheckCallback: certificateCheckCallback,
 		}
-		origin.SetCallbacks(remoteCallbacks)
+		fetchOptions := &git.FetchOptions {
+			RemoteCallbacks: remoteCallbacks,
+		}
+		// origin.SetCallbacks(remoteCallbacks)
 		if err != nil {
 			return err
 		} else {
 			refspec := make([]string, 0)
 			fmt.Print("Fetching\n")
-			err = origin.Fetch(refspec, "pull")
+			err = origin.Fetch(refspec, fetchOptions, "pull")
 			if err != nil {
 				return err
 			} 
@@ -45,11 +48,11 @@ func (p *PullInfo ) GitPull() ( error ) {
 	// merge
 	local := fmt.Sprintf("refs/heads/%s", p.Branch)
 	remote := fmt.Sprintf("refs/remotes/origin/%s", p.Branch)
-	localref, err := p.Repo.LookupReference(local)
+	localref, err := p.Repo.References.Lookup(local)
 	if err != nil {
 		return err
 	}
-	remoteref, err := p.Repo.LookupReference(remote)
+	remoteref, err := p.Repo.References.Lookup(remote)
 	if err != nil {
 		return err
 	}

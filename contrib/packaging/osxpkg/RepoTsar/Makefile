@@ -15,4 +15,4 @@ buildmake:
               --resources ./resources \
               --package-path ./pkg1 \
               --version $(VERSION) \
-              ../RepoTsar-v$(VERSION)-amd64-osx10.8.pkg
+              ../RepoTsar-v$(VERSION)-amd64-osx10.11.pkg

@@ -18,7 +18,7 @@ func TestCloneInfoStruct(t *testing.T){
 		cloneinfo := &CloneInfo {
 			Reponame: "TestRepo",
 			Path: path,
-			URL: "ssh://git@github.com/libgit2/git2go.git",
+			URL: "https://github.com/libgit2/git2go.git",
 			Branch: "master",
 		}
 		_,err = cloneinfo.CloneRepo()
