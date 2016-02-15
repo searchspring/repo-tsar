@@ -20,12 +20,12 @@ func TestRepoTsarStruct(t *testing.T){
 	config := config.Config{
 		Repos: map[string]config.Repo{
 			"testrepo1": config.Repo{
-				URL: "ssh://git@github.com/libgit2/git2go.git",
+				URL: "https://github.com/libgit2/git2go.git",
 				Path: testpath+"/Test1",
 				Branch: "master",
 			},
 			"testrepo2": config.Repo{
-				URL: "ssh://git@github.com/libgit2/git2go.git",
+				URL: "https://github.com/libgit2/git2go.git",
 				Path: testpath+"Test2",
 				Branch: "master",
 			},

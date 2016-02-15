@@ -1,0 +1,11 @@
+Package: RepoTsar
+Version: 0.1.2
+Section: base
+Priority: optional
+Architecture: amd64
+Depends: 
+Maintainer: Greg Hellings <greg@thesub.net>
+Description:
+	Manage multiple git repos
+
+
