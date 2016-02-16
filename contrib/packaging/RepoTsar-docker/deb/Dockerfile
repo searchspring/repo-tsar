@@ -1,7 +1,7 @@
 FROM buildpack-deps:jessie-scm
 
 ENV GO_VER go1.4.2.linux-amd64
-ENV REPOTSAR_VER 0.1.2
+ENV REPOTSAR_VER 0.1.3
 ENV GOPATH /app/go
 ENV GOROOT /usr/local/go
 ENV PATH $PATH:$GOROOT/bin:$GOPATH/bin
@@ -38,25 +38,6 @@ RUN \
 
 
 # Instal libgit2
-ENV LIBGIT2VER HEAD
-# ADD https://github.com/libgit2/libgit2/archive/v${LIBGIT2VER}.tar.gz /tmp/libgit2.${LIBGIT2VER}.tar.gz
-
-# RUN \
-# 	# tar zxvf /tmp/libgit2.${LIBGIT2VER}.tar.gz && \
-# 	# rm -f /tmp/libgit2.${LIBGIT2VER}.tar.gz && \
-# 	git clone https://github.com/libgit2/libgit2.git libgit2-${LIBGIT2VER} && \
-# 	cd /libgit2-${LIBGIT2VER} && \
-# 	mkdir build && \
-# 	cd build && \
-# 	cmake -DTHREADSAFE=ON \
-#       -DBUILD_CLAR=OFF \
-#       -DBUILD_SHARED_LIBS=OFF \
-#       -DCMAKE_C_FLAGS=-fPIC \
-#       -DCMAKE_BUILD_TYPE="RelWithDebInfo" \
-#       -DCMAKE_INSTALL_PREFIX=/usr \
-#       .. && \
-#     cmake --build . && \
-#     make install
 
 RUN \
 	go get -d gopkg.in/libgit2/git2go.v22 && \
@@ -88,10 +69,10 @@ RUN \
 	mkdir -p /app/deb && \
 	cd /app/deb/ && \
 	mkdir -p RepoTsar_${REPOTSAR_VER}/usr/local/bin && \
-	cp $GOPATH/bin/RepoTsar RepoTsar_${HAUS_VER}/usr/local/bin/ && \
+	cp $GOPATH/bin/RepoTsar /app/deb/RepoTsar_${REPOTSAR_VER}/usr/local/bin/ && \
 	mkdir -p RepoTsar_${REPOTSAR_VER}/DEBIAN
 
-COPY control /app/deb/REPOTSAR_${REPOTSAR_VER}/DEBIAN/
+ADD control /app/deb/RepoTsar_${REPOTSAR_VER}/DEBIAN/
 
 RUN \
 	cd /app/deb && \
