@@ -20,6 +20,12 @@ func (c *CloneInfo) CloneRepo() (*git.Repository, error) {
 		cloneOptions := &git.CloneOptions{
 			Bare:             false,
 			CheckoutBranch:   c.Branch,
+			FetchOptions: &git.FetchOptions { 
+				RemoteCallbacks: git.RemoteCallbacks{
+					CredentialsCallback:  credentialsCallback,
+					CertificateCheckCallback: certificateCheckCallback,
+				},
+			},
 			CheckoutOpts: &git.CheckoutOpts{
 				Strategy: git.CheckoutSafe,
 			},

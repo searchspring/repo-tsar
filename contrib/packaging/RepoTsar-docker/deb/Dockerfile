@@ -1,7 +1,7 @@
 FROM buildpack-deps:jessie-scm
 
 ENV GO_VER go1.4.2.linux-amd64
-ENV REPOTSAR_VER 0.1.3
+ENV REPOTSAR_VER 0.1.4
 ENV GOPATH /app/go
 ENV GOROOT /usr/local/go
 ENV PATH $PATH:$GOROOT/bin:$GOPATH/bin
@@ -37,7 +37,7 @@ RUN \
 		libcurl4-openssl-dev
 
 
-# Instal libgit2
+# Install git2go and libgit2
 
 RUN \
 	go get -d gopkg.in/libgit2/git2go.v22 && \
