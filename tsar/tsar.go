@@ -6,9 +6,9 @@ import (
 	"fmt"
 
 	"gopkg.in/libgit2/git2go.v22"
-	"github.com/SearchSpring/RepoTsar/gitutils"
-	"github.com/SearchSpring/RepoTsar/fileutils"
-	"github.com/SearchSpring/RepoTsar/config"
+	"github.com/searchspring/repo-tsar/gitutils"
+	"github.com/searchspring/repo-tsar/fileutils"
+	"github.com/searchspring/repo-tsar/config"
 )
 
 type semaphore chan error
