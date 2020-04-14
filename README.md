@@ -50,7 +50,7 @@ go get gopkg.in/yaml.v2
 #### Installing RepoTsar
 
 ```bash
-go get github.com/SearchSpring/RepoTsar
+go get github.com/searchspring/repo-tsar
 ``` 
 
 
