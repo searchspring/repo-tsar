@@ -8,8 +8,8 @@ import(
 	"fmt"
 
 	"gopkg.in/libgit2/git2go.v22"
-	"github.com/SearchSpring/RepoTsar/tsar"
-	"github.com/SearchSpring/RepoTsar/config"
+	"github.com/SearchSpring/repo-tsar/tsar"
+	"github.com/SearchSpring/repo-tsar/config"
 )
 
 var configFileName string
