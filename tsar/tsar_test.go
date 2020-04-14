@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"gopkg.in/libgit2/git2go.v22"
-	"github.com/SearchSpring/RepoTsar/config"
+	"github.com/searchspring/repo-tsar/config"
 )
 
 func TestRepoTsarStruct(t *testing.T){
